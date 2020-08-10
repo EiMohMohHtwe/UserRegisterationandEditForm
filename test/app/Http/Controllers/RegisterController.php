@@ -40,13 +40,22 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'birthday' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+        ]);
     
            $newUser=new User();
 
            $newUser->fill($request->all());
            $newUser->save();
 
-           return redirect()->back();
+           return redirect()->route('newUser.profile')->with('success','Data Added');
       
     }
 
@@ -81,6 +90,17 @@ class RegisterController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'birthday' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+        ]);
+
         $users = User::find($id);
 
         $users->name = request('name');
@@ -92,7 +112,7 @@ class RegisterController extends Controller
         $users->password=request('password');
         $users->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('message','Profile updated successfully');
     }
 
     /**
